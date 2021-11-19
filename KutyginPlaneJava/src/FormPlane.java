@@ -16,7 +16,8 @@ import javax.swing.border.LineBorder;
 
 public class FormPlane extends JFrame {
     private final JPanel contentPane;
-    private Plane plane;
+    private RadarPlane radarPlane;
+    private ITransport plane;
     public static void main(String[] args) {
         EventQueue.invokeLater(() -> {
             try {
@@ -42,15 +43,21 @@ public class FormPlane extends JFrame {
         contentPane.setBorder(new LineBorder(new Color(0, 0, 0)));
         //Все содержимое будет отрисовываться в панеле
         setContentPane(contentPane);
-        //Установка Layouta
+        //Установка Layout
         contentPane.setLayout(null);
 
 
-        //Кнопка создание Самолета
-        JButton btnCreate = new JButton("Создать Самолет");
-        btnCreate.setBounds(719, 11, 150, 23);
-        btnCreate.setMargin(new Insets(10, 10, 10, 10));
-        contentPane.add(btnCreate);
+        //Кнопка создания Самолета
+        JButton btnCreatePlane = new JButton("Создать Самолет");
+        btnCreatePlane.setBounds(719, 11, 150, 23);
+        btnCreatePlane.setMargin(new Insets(10, 10, 10, 10));
+        contentPane.add(btnCreatePlane);
+
+        //Кнопка создания Самолета c радаром
+        JButton btnCreateRadarPlane = new JButton("Создать Самолет с Радаром");
+        btnCreateRadarPlane.setBounds(719, 54, 150, 23);
+        btnCreateRadarPlane.setMargin(new Insets(10, 10, 10, 10));
+        contentPane.add(btnCreateRadarPlane);
 
         //Стрелочка Вверх
         JButton btnUp = new JButton("");
@@ -76,22 +83,32 @@ public class FormPlane extends JFrame {
         btnRight.setIcon(new ImageIcon("C:\\Users\\kutyg\\Desktop\\arrowRight.png"));
         contentPane.add(btnRight);
 
-        //Привязка действия на кнопку "Создать"
-        btnCreate.addActionListener(e -> {
+        //Привязка действия на кнопку "Создать самолет"
+        btnCreatePlane.addActionListener(e -> {
             Random rnd = new Random();
-            plane = new Plane();
-            int radarAmount = rnd.nextInt(3)+1;
-            plane.Init(rnd.nextInt(200) + 100, rnd.nextInt(1000) + 1000, Color.WHITE, Color.BLACK, true, true, radarAmount);
+            plane = new Plane(rnd.nextInt(200) + 100, rnd.nextInt(1000) + 1000, Color.WHITE);
             plane.SetPosition(rnd.nextInt(100) + 10, rnd.nextInt(100) + 40, contentPane.getWidth(), contentPane.getHeight());
             repaint();
         });
+
+        //Привязка действия на кнопку "Создать самолет с радаром"
+        btnCreateRadarPlane.addActionListener(e -> {
+            Random rnd = new Random();
+            int radarAmount = rnd.nextInt(3)+1;
+            plane = new RadarPlane(rnd.nextInt(200) + 100, rnd.nextInt(1000) + 1000, Color.WHITE, Color.BLACK, true, true, radarAmount);
+            plane.SetPosition(rnd.nextInt(100) + 10, rnd.nextInt(100) + 40, contentPane.getWidth(), contentPane.getHeight());
+            repaint();
+        });
+
 
         //Привязка действия на стрелочку "Вверх"
         btnUp.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                plane.MoveTransport(Directions.UP);
-                repaint();
+                if (plane != null) {
+                    plane.MoveTransport(Directions.UP);
+                    repaint();
+                }
             }
         });
 
@@ -99,15 +116,19 @@ public class FormPlane extends JFrame {
         btnLeft.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                plane.MoveTransport(Directions.LEFT);
-                repaint();
+                if (plane != null) {
+                    plane.MoveTransport(Directions.LEFT);
+                    repaint();
+                }
             }
         });
         btnRight.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                plane.MoveTransport(Directions.RIGHT);
-                repaint();
+                if (plane != null) {
+                    plane.MoveTransport(Directions.RIGHT);
+                    repaint();
+                }
             }
         });
 
@@ -115,8 +136,10 @@ public class FormPlane extends JFrame {
         btnDown.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                plane.MoveTransport(Directions.DOWN);
-                repaint();
+                if (plane != null) {
+                    plane.MoveTransport(Directions.DOWN);
+                    repaint();
+                }
             }
         });
     }

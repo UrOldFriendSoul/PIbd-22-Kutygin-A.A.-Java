@@ -1,9 +1,8 @@
 import java.awt.*;
-
-public class Radar implements IRadars{
+public class SecondRadarForm implements IRadars {
     private RadarAmount radarAmount;
 
-    public Radar(int d){
+    public SecondRadarForm(int d){
         SetRadarAmount(d);
     }
 
@@ -25,8 +24,8 @@ public class Radar implements IRadars{
                 g.fillRect(_startPosX + 70, _startPosY + 30, 4, 8);
                 Polygon radar = new Polygon();
                 radar.addPoint(_startPosX + 70, _startPosY + 30);
-                radar.addPoint(_startPosX + 85, _startPosY + 30);
-                radar.addPoint(_startPosX + 65, _startPosY + 15);
+                radar.addPoint(_startPosX + 90, _startPosY + 30);
+                radar.addPoint(_startPosX + 65, _startPosY + 10);
                 g.fillPolygon(radar);
             }
 
@@ -34,8 +33,8 @@ public class Radar implements IRadars{
                 g.fillRect(_startPosX + 90, _startPosY + 30, 4, 8);
                 Polygon radar2 = new Polygon();
                 radar2.addPoint(_startPosX + 90, _startPosY + 30);
-                radar2.addPoint(_startPosX + 105, _startPosY + 30);
-                radar2.addPoint(_startPosX + 85, _startPosY + 15);
+                radar2.addPoint(_startPosX + 110, _startPosY + 30);
+                radar2.addPoint(_startPosX + 85, _startPosY + 10);
                 g.fillPolygon(radar2);
             }
 
@@ -43,8 +42,8 @@ public class Radar implements IRadars{
                 g.fillRect(_startPosX + 50, _startPosY + 30, 4, 8);
                 Polygon radar3 = new Polygon();
                 radar3.addPoint(_startPosX + 50, _startPosY + 30);
-                radar3.addPoint(_startPosX + 65, _startPosY + 30);
-                radar3.addPoint(_startPosX + 45, _startPosY + 15);
+                radar3.addPoint(_startPosX + 70, _startPosY + 30);
+                radar3.addPoint(_startPosX + 45, _startPosY + 10);
                 g.fillPolygon(radar3);
             }
             break;
