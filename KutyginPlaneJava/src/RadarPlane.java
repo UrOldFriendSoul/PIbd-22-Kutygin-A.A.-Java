@@ -86,12 +86,12 @@ public class RadarPlane extends Plane {
 
         //TailWings
         if(backTailWings) {
-            g2d.setColor(Color.BLACK);
+            g2d.setColor(GetDopColor());
             g.fillOval(_startPosX - 3, _startPosY + 30, 30, 7);
         }
         //BaseWings
         if(frontWing)
-        g2d.setColor(Color.BLACK);
+        g2d.setColor(GetDopColor());
         g.fillOval(_startPosX+25 ,_startPosY + 45,70,7);
 
         //Radars

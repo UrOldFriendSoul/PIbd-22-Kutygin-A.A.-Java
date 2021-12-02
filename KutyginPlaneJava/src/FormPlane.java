@@ -15,8 +15,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.border.LineBorder;
 
 public class FormPlane extends JFrame {
-    private final JPanel contentPane;
-    private RadarPlane radarPlane;
+    private final JPanel panelPlane;
     private ITransport plane;
     public static void main(String[] args) {
         EventQueue.invokeLater(() -> {
@@ -29,79 +28,63 @@ public class FormPlane extends JFrame {
         });
     }
     public FormPlane() {
-        //Вызов конструктора базового класса
         super("Самолет");
-        //Закрытие на "крестик"
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        //Установка положения на экране и размера формы
+
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setBounds(100, 100, 900, 500);
-        //Неизменяемый размер
         setResizable(false);
-        //Инициализация панели
-        contentPane = new JPanel();
-        //Установка её границ
-        contentPane.setBorder(new LineBorder(new Color(0, 0, 0)));
-        //Все содержимое будет отрисовываться в панеле
-        setContentPane(contentPane);
-        //Установка Layout
-        contentPane.setLayout(null);
 
+        panelPlane = new JPanel();
+        panelPlane.setBorder(new LineBorder(new Color(0, 0, 0)));
+        setContentPane(panelPlane);
+        panelPlane.setLayout(null);
 
-        //Кнопка создания Самолета
         JButton btnCreatePlane = new JButton("Создать Самолет");
         btnCreatePlane.setBounds(719, 11, 150, 23);
         btnCreatePlane.setMargin(new Insets(10, 10, 10, 10));
-        contentPane.add(btnCreatePlane);
+        panelPlane.add(btnCreatePlane);
 
-        //Кнопка создания Самолета c радаром
         JButton btnCreateRadarPlane = new JButton("Создать Самолет с Радаром");
         btnCreateRadarPlane.setBounds(719, 54, 150, 23);
         btnCreateRadarPlane.setMargin(new Insets(10, 10, 10, 10));
-        contentPane.add(btnCreateRadarPlane);
+        panelPlane.add(btnCreateRadarPlane);
 
-        //Стрелочка Вверх
         JButton btnUp = new JButton("");
         btnUp.setBounds(804, 379, 30, 30);
         btnUp.setIcon(new ImageIcon("C:\\Users\\kutyg\\Desktop\\arrowUp.jpg"));
-        contentPane.add(btnUp);
+        panelPlane.add(btnUp);
 
-        //Стрелочка Влево
         JButton btnLeft = new JButton("");
         btnLeft.setBounds(764, 420, 30, 30);
         btnLeft.setIcon(new ImageIcon("C:\\Users\\kutyg\\Desktop\\arrowLeft.png"));
-        contentPane.add(btnLeft);
+        panelPlane.add(btnLeft);
 
-        //Стрелочка Вниз
         JButton btnDown = new JButton("");
         btnDown.setBounds(804, 420, 30, 30);
         btnDown.setIcon(new ImageIcon("C:\\Users\\kutyg\\Desktop\\загружено.png"));
-        contentPane.add(btnDown);
+        panelPlane.add(btnDown);
 
-        //Стрелочка Вправо
         JButton btnRight = new JButton("");
         btnRight.setBounds(844, 420, 30, 30);
         btnRight.setIcon(new ImageIcon("C:\\Users\\kutyg\\Desktop\\arrowRight.png"));
-        contentPane.add(btnRight);
+        panelPlane.add(btnRight);
 
-        //Привязка действия на кнопку "Создать самолет"
         btnCreatePlane.addActionListener(e -> {
             Random rnd = new Random();
             plane = new Plane(rnd.nextInt(200) + 100, rnd.nextInt(1000) + 1000, Color.WHITE);
-            plane.SetPosition(rnd.nextInt(100) + 10, rnd.nextInt(100) + 40, contentPane.getWidth(), contentPane.getHeight());
+            plane.SetPosition(rnd.nextInt(100) + 10, rnd.nextInt(100) + 40, panelPlane.getWidth(), panelPlane.getHeight());
             repaint();
         });
 
-        //Привязка действия на кнопку "Создать самолет с радаром"
         btnCreateRadarPlane.addActionListener(e -> {
             Random rnd = new Random();
             int radarAmount = rnd.nextInt(3)+1;
             plane = new RadarPlane(rnd.nextInt(200) + 100, rnd.nextInt(1000) + 1000, Color.WHITE, Color.BLACK, true, true, radarAmount);
-            plane.SetPosition(rnd.nextInt(100) + 10, rnd.nextInt(100) + 40, contentPane.getWidth(), contentPane.getHeight());
+            plane.SetPosition(rnd.nextInt(100) + 10, rnd.nextInt(100) + 40, panelPlane.getWidth(), panelPlane.getHeight());
             repaint();
         });
 
 
-        //Привязка действия на стрелочку "Вверх"
         btnUp.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -112,7 +95,6 @@ public class FormPlane extends JFrame {
             }
         });
 
-        //Привязка действия на стрелочку "Влево"
         btnLeft.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -122,6 +104,7 @@ public class FormPlane extends JFrame {
                 }
             }
         });
+
         btnRight.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -132,7 +115,6 @@ public class FormPlane extends JFrame {
             }
         });
 
-        //Привязка действия на стрелочку "Вниз"
         btnDown.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -143,19 +125,28 @@ public class FormPlane extends JFrame {
             }
         });
     }
-        @Override
-        public void paint(Graphics g)
-        {
-            super.paint(g);
-            if(plane != null)
-                plane.DrawTransport(g);
-        }
+    @Override
+    public void paint(Graphics g)
+    {
+        super.paint(g);
+        if(plane != null)
+            plane.DrawTransport(g);
+    }
 
-        //Переопределение метода repaint
-        @Override
-        public void repaint()
-        {
-            super.repaint();
-        }
+    //Переопределение метода repaint
+    @Override
+    public void repaint()
+    {
+        super.repaint();
+    }
+
+    public void SetPlane(ITransport plane)
+    {
+        Random rnd = new Random();
+        this.plane = plane;
+        this.plane.SetPosition(rnd.nextInt(100)+100, rnd.nextInt(100)+100, panelPlane.getWidth(),panelPlane.getHeight());
+        repaint();
+    }
+
 
 }
