@@ -1,94 +1,94 @@
 import java.awt.*;
-import javax.swing.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Airfield <T extends ITransport, S extends IRadars> {
-    private T []_places;
+    private final List<T> _places;
     private int pictureWidth;
     private int pictureHeight;
-    private int _placeSizeWidth = 270;
-    private int _placeSizeHeight = 90;
+    private int _placeSizeWidth = 310;
+    private int _placeSizeHeight = 100;
     private int width;
     private int height;
+    private int _maxCount;
+    public T getPlane(int i )
+    {
+        if (i > -1 && i < _places.size())
+        {
+            return _places.get(i);
+        }
+        return null;
+    }
     public Airfield (int picWidth, int picHeight){
         width = picWidth / _placeSizeWidth;
         height = picHeight / _placeSizeHeight;
-        _places = (T[]) new ITransport[width*height];
+        _maxCount = width*height;
+        _places = new ArrayList<>();
         pictureWidth = picWidth;
         pictureHeight = picHeight;
     }
+    public T getter(int index)
+    {
+        if(index > -1 && index <_places.size())
+        {
+            return _places.get(index);
+        }
+        return null;
+    }
+    public void setter(int index, T value){
+        if(_places.size()> index && index >=0){
+            _places.add(index, value);
+        }
+    }
     public int Plus(T plane)
     {
-        int i = 0;
-        int j = 0;
-        while (i < height)
+        if (_places.size() < _maxCount)
         {
-            j = 0;
-            while (j < width)
-            {
-                if (_places[i*width + j] == null)
-                {
-                    _places[i*width + j] = plane;
-                    plane.SetPosition(25 + j * _placeSizeWidth, 40 + i * _placeSizeHeight, pictureWidth, pictureHeight);
-                    return i*width + j;
-                }
-                j++;
-            }
-            i++;
+            _places.add(plane);
+            return _places.size();
         }
         return -1;
     }
     public T Minus(int index)
     {
-        if (index > -1 && index < _places.length && _places[index] != null)
+        if (index > -1 && index < _maxCount)
         {
-            T dop = _places[index];
-            _places[index] = null;
+            T dop = _places.get(index);
+            _places.remove(index);
             return dop;
         }
         return null;
-    }
-    public boolean More(Airfield<ITransport, IRadars> airfield, int x)
-    {
-        int count = 0;
-        for (int i = 0; i < airfield._places.length; i++)
-        {if(airfield._places != null){
-            count++;
-        }
-
-        }
-        return count < x;
-    }
-    public boolean Less(Airfield<ITransport, IRadars> airfield, int x)
-    {
-        int count = 0;
-        for (int i = 0; i < airfield._places.length; i++)
-        {if(airfield._places != null){
-            count++;
-        }
-
-        }
-        return count > x;
     }
 
     public void Draw(Graphics g)
     {
         DrawMarking(g);
-        for (int i = 0; i < _places.length; i++)
+
+        int x = 30, y = 45;
+        for(int i = 0; i < _places.size(); ++i)
         {
-            if(_places[i]!=null)
-                _places[i].DrawTransport(g);
+            if(i % (pictureWidth / _placeSizeWidth) == 0 && i != 0)
+            {
+                y += 100;
+                x = 30;
+            }
+            if(_places.get(i) != null) {
+                _places.get(i).SetPosition(x, y, 1, 1);
+                _places.get(i).DrawTransport(g);
+            }
+            x += 320;
         }
     }
     public void DrawMarking(Graphics g)
     {
         g.setColor(Color.BLACK);
-        for (int i = 0; i < pictureWidth / _placeSizeWidth; i++)
+        for (int i = 0; i < width; i++)
         {
-            for (int j = 0; j < 6; ++j)
+            for (int j = 0; j < 6; j++)
             {//линия рамзетки места
                 g.drawLine( i * _placeSizeWidth+10, j * _placeSizeHeight+35, i * _placeSizeWidth + 145, j * _placeSizeHeight+35);
             }
-            g.drawLine( i * _placeSizeWidth+10, 35, i * _placeSizeWidth+10, 485);
+            g.drawLine( i * _placeSizeWidth+10, 35, i * _placeSizeWidth+10, 435);
         }
     }
 

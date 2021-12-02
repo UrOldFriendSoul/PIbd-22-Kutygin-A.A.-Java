@@ -17,6 +17,7 @@ import javax.swing.border.LineBorder;
 public class FormPlane extends JFrame {
     private final JPanel panelPlane;
     private ITransport plane;
+
     public static void main(String[] args) {
         EventQueue.invokeLater(() -> {
             try {
@@ -27,6 +28,7 @@ public class FormPlane extends JFrame {
             }
         });
     }
+
     public FormPlane() {
         super("Самолет");
 
@@ -84,7 +86,6 @@ public class FormPlane extends JFrame {
             repaint();
         });
 
-
         btnUp.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -125,6 +126,7 @@ public class FormPlane extends JFrame {
             }
         });
     }
+
     @Override
     public void paint(Graphics g)
     {
@@ -147,6 +149,4 @@ public class FormPlane extends JFrame {
         this.plane.SetPosition(rnd.nextInt(100)+100, rnd.nextInt(100)+100, panelPlane.getWidth(),panelPlane.getHeight());
         repaint();
     }
-
-
 }
