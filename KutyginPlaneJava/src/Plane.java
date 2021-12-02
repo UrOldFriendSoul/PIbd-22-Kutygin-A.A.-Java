@@ -52,10 +52,10 @@ protected Plane(int maxSpeed, int weight, Color mainColor, int planeWidth, int p
     @Override
     public void DrawTransport(Graphics g){
         Graphics2D g2d = (Graphics2D) g;
-        g2d.setColor(Color.GRAY);
+        g2d.setColor(getMainColor());
         //base
         g.fillRect( _startPosX, _startPosY + 35, 120, 30);
-        g2d.setColor(Color.GRAY);
+        g2d.setColor(getMainColor());
         g.fillOval( _startPosX - 10, _startPosY + 35, 30, 30);
         //Tail
         Polygon tail = new Polygon();
@@ -70,7 +70,7 @@ protected Plane(int maxSpeed, int weight, Color mainColor, int planeWidth, int p
         cabin.addPoint(_startPosX + 120, _startPosY + 63);
         g.drawPolygon(cabin);
         //Wheels
-        g2d.setColor(Color.GRAY);
+        g2d.setColor(getMainColor());
         g.fillRect( _startPosX + 20, _startPosY + 65, 4, 8);
         g.fillRect( _startPosX + 110, _startPosY + 65, 4, 8);
         g.fillOval( _startPosX + 20, _startPosY + 70, 7, 7);
