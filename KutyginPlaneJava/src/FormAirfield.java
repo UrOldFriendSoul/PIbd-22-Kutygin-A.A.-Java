@@ -12,7 +12,7 @@ import java.util.Stack;
 public class FormAirfield extends JFrame {
 
     private final Airfield<Plane, IRadars> airfield;
-    private Plane plane;
+    Plane plane;
     private AirfieldCollection airfieldCollection;
     private JList<String> jListBoxAirfield;
     private DefaultListModel<String> defListModelAirfield;
@@ -66,11 +66,6 @@ public class FormAirfield extends JFrame {
         btnParkPlane.setBounds(25, 215, 150, 40);
         btnParkPlane.setMargin(new Insets(10, 10, 10, 10));
         panelManage.add(btnParkPlane);
-
-        JButton btnParkRadarPlane = new JButton("Доб. самолет с рад");
-        btnParkRadarPlane.setBounds(25, 255, 150, 40);
-        btnParkRadarPlane.setMargin(new Insets(10, 10, 10, 10));
-        panelManage.add(btnParkRadarPlane);
 
         JButton btnParkingForDeletedCars = new JButton("Изъятые самолеты");
         btnParkingForDeletedCars.setBounds(25,410,150,40);
@@ -160,33 +155,9 @@ public class FormAirfield extends JFrame {
         });
 
         btnParkPlane.addActionListener(e -> {
-            if(jListBoxAirfield.getSelectedIndex() > -1)
-            {
-                Color chooseColor = JColorChooser.showDialog(null, "Выберите цвет", Color.BLACK);
-                plane = new Plane(100, 1000, chooseColor);
-                if((airfieldCollection.get(jListBoxAirfield.getSelectedValue()).Plus(plane)) != -1)
-                {
-                    repaint();
-                }
-                else
-                    {
-                    JOptionPane.showMessageDialog(null, "Аэродром заполнен");
-                }
-            }
-        });
-
-        btnParkRadarPlane.addActionListener(e -> {
-            if(jListBoxAirfield.getSelectedIndex() > -1) {
-                Random rnd = new Random();
-                Color chooseColor = JColorChooser.showDialog(null, "Выберите цвет", Color.BLACK);
-                Color chooseDopColor = JColorChooser.showDialog(null, "Выберите цвет", Color.BLACK);
-                plane = new RadarPlane(100, 1000, chooseColor, chooseDopColor, true, true, rnd.nextInt(3) + 1);
-                if((airfieldCollection.get(jListBoxAirfield.getSelectedValue()).Plus(plane)) != -1){
-                    repaint();
-                }
-                else {
-                    JOptionPane.showMessageDialog(null, "Аэродром заполнен");
-                }
+            if (jListBoxAirfield.getSelectedIndex() > -1){
+                FormPlaneConfig fpc = new FormPlaneConfig(this);
+                fpc.setVisible(true);
             }
         });
 
@@ -218,6 +189,17 @@ public class FormAirfield extends JFrame {
                 if(jListBoxAirfield.getSelectedValue() != null){
                     airfieldCollection.get(jListBoxAirfield.getSelectedValue()).Draw(g);
                 }
+            }
+        }
+        public void addPlane(Plane plane)
+        {
+          if((airfieldCollection.get(jListBoxAirfield.getSelectedValue()).Plus(plane))!=-1)
+             {
+                 repaint();
+             }
+          else
+            {
+                JOptionPane.showMessageDialog(null, "Аэродром переполнен");
             }
         }
 

@@ -47,7 +47,9 @@ public class Airfield <T extends ITransport, S extends IRadars> {
             _places.add(plane);
             return _places.size();
         }
-        return -1;
+        else {
+            return -1;
+        }
     }
     public T Minus(int index)
     {
@@ -57,7 +59,9 @@ public class Airfield <T extends ITransport, S extends IRadars> {
             _places.remove(index);
             return dop;
         }
-        return null;
+        else {
+            return null;
+        }
     }
 
     public void Draw(Graphics g)
@@ -91,6 +95,5 @@ public class Airfield <T extends ITransport, S extends IRadars> {
             g.drawLine( i * _placeSizeWidth+10, 35, i * _placeSizeWidth+10, 435);
         }
     }
-
 }
 

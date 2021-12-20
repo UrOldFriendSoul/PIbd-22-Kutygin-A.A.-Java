@@ -8,6 +8,7 @@ setMaxSpeed(maxSpeed);
 setWeight(weight);
 setMainColor(mainColor);
 }
+
 protected Plane(int maxSpeed, int weight, Color mainColor, int planeWidth, int planeHeight){
     setMaxSpeed(maxSpeed);
     setWeight(weight);
@@ -15,6 +16,7 @@ protected Plane(int maxSpeed, int weight, Color mainColor, int planeWidth, int p
     this.planeWidth =  planeWidth;
     this.planeHeight =  planeHeight;
 }
+
 @Override
     public void MoveTransport(Directions directions){
     int step = getMaxSpeed()*100 / getWeight();
