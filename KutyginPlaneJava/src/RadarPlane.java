@@ -52,33 +52,22 @@ public class RadarPlane extends Plane {
     private int GetNumbOfRadars(){
         return numbOfRadars;
     }
-    public RadarPlane(int maxSpeed, int weight, Color mainColor, Color dopColor, boolean frontWing, boolean backTailWings, int radarAmount)
+
+    public RadarPlane(int maxSpeed, int weight, Color mainColor, Color dopColor, boolean frontWing, boolean backTailWings, IRadars radarForm)
     {
         super(maxSpeed,weight,mainColor,120,60);
         SetDopColor(dopColor);
         SetFrontWing(frontWing);
         SetBackTailWings(backTailWings);
         //Инициализация объекта для отрисовки радаров
-        this.radarAmount = radarAmount;
-        GetRadarForm();
+        RadarForm = radarForm;
     }
-    //Метод для выбора формы радара
-    private void GetRadarForm(){
-        Random rnd = new Random();
-        int radarForm = rnd.nextInt(3)+1;
-        if (radarForm == 1) {
-            RadarForm = new Radar(radarAmount);
-        }
-        if (radarForm == 2) {
-            RadarForm = new SecondRadarForm(radarAmount);
-        }
-        if (radarForm == 3){
-            RadarForm = new ThirdRadarForm(radarAmount);
-        }
+
+    public void setRadarForm(IRadars radarForm){
+        RadarForm = radarForm;
     }
 
     //Метод для передвижения самодета
-
     @Override
     public void DrawTransport(Graphics g) {
         super.DrawTransport(g);
@@ -95,7 +84,7 @@ public class RadarPlane extends Plane {
         g.fillOval(_startPosX+25 ,_startPosY + 45,70,7);
 
         //Radars
-        RadarForm.DrawPart(g,GetDopColor(), _startPosX,_startPosY);
+        RadarForm.DrawPart(g, GetDopColor(), _startPosX, _startPosY);
     }
 }
 

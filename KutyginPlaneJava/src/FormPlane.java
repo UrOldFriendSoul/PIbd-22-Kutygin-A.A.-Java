@@ -81,7 +81,7 @@ public class FormPlane extends JFrame {
         btnCreateRadarPlane.addActionListener(e -> {
             Random rnd = new Random();
             int radarAmount = rnd.nextInt(3)+1;
-            plane = new RadarPlane(rnd.nextInt(200) + 100, rnd.nextInt(1000) + 1000, Color.WHITE, Color.BLACK, true, true, radarAmount);
+            plane = new RadarPlane(rnd.nextInt(200) + 100, rnd.nextInt(1000) + 1000, Color.WHITE, Color.BLACK, true, true, new Radar(radarAmount));
             plane.SetPosition(rnd.nextInt(100) + 10, rnd.nextInt(100) + 40, panelPlane.getWidth(), panelPlane.getHeight());
             repaint();
         });
