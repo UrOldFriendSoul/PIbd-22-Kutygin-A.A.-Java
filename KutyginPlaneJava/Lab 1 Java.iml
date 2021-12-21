@@ -7,5 +7,39 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" exported="" name="com.sun.mail:javax.mail:1.4.5" level="project" />
+    <orderEntry type="library" exported="" name="org.apache.logging.log4j:log4j-core:2.0-alpha1" level="project" />
+    <orderEntry type="library" exported="" name="org.slf4j:slf4j-log4j12:1.7.3" level="project" />
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="file://$USER_HOME$/Downloads/log4j-1.2.17/apache-log4j-1.2.17" />
+        </CLASSES>
+        <JAVADOC>
+          <root url="file://$USER_HOME$/Downloads/log4j-1.2.17/apache-log4j-1.2.17/site/apidocs" />
+        </JAVADOC>
+        <NATIVE>
+          <root url="file://$USER_HOME$/Downloads/log4j-1.2.17/apache-log4j-1.2.17" />
+        </NATIVE>
+        <SOURCES>
+          <root url="file://$USER_HOME$/Downloads/log4j-1.2.17/apache-log4j-1.2.17" />
+          <root url="file://$USER_HOME$/Downloads/log4j-1.2.17/apache-log4j-1.2.17/contribs/CekiGulcu" />
+          <root url="file://$USER_HOME$/Downloads/log4j-1.2.17/apache-log4j-1.2.17/contribs/Jamie Tsao" />
+          <root url="file://$USER_HOME$/Downloads/log4j-1.2.17/apache-log4j-1.2.17/contribs/JimMoore" />
+          <root url="file://$USER_HOME$/Downloads/log4j-1.2.17/apache-log4j-1.2.17/contribs/ThomasFenner" />
+          <root url="file://$USER_HOME$/Downloads/log4j-1.2.17/apache-log4j-1.2.17/src/main/java" />
+          <root url="file://$USER_HOME$/Downloads/log4j-1.2.17/apache-log4j-1.2.17/src/main/javadoc" />
+          <root url="file://$USER_HOME$/Downloads/log4j-1.2.17/apache-log4j-1.2.17/src/performance/java" />
+          <root url="file://$USER_HOME$/Downloads/log4j-1.2.17/apache-log4j-1.2.17/tests/src/java" />
+        </SOURCES>
+        <jarDirectory url="file://$USER_HOME$/Downloads/log4j-1.2.17/apache-log4j-1.2.17" recursive="false" />
+      </library>
+    </orderEntry>
+    <orderEntry type="library" name="Maven: javax.mail:mail:1.4.3" level="project" />
+    <orderEntry type="library" name="Maven: javax.activation:activation:1.1" level="project" />
+    <orderEntry type="library" name="Maven: oro:oro:2.0.8" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.geronimo.specs:geronimo-jms_1.1_spec:1.0" level="project" />
+    <orderEntry type="library" name="Maven: junit:junit:3.8.2" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.openejb:javaee-api:5.0-2" level="project" />
   </component>
 </module>

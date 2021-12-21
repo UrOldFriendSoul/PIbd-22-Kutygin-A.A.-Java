@@ -27,7 +27,7 @@ public class Airfield <T extends ITransport, S extends IRadars> {
         pictureWidth = picWidth;
         pictureHeight = picHeight;
     }
-    public T getter(int index)
+    public T getter(int index)throws AirfieldNotFoundException
     {
         if(index > -1 && index <_places.size())
         {
@@ -40,7 +40,7 @@ public class Airfield <T extends ITransport, S extends IRadars> {
             _places.add(index, value);
         }
     }
-    public int Plus(T plane)
+    public int Plus(T plane)throws AirfieldOverflowException
     {
         if (_places.size() < _maxCount)
         {
@@ -48,10 +48,10 @@ public class Airfield <T extends ITransport, S extends IRadars> {
             return _places.size();
         }
         else {
-            return -1;
+            throw new AirfieldOverflowException();
         }
     }
-    public T Minus(int index)
+    public T Minus(int index)throws AirfieldNotFoundException
     {
         if (index > -1 && index < _maxCount)
         {
@@ -60,7 +60,7 @@ public class Airfield <T extends ITransport, S extends IRadars> {
             return dop;
         }
         else {
-            return null;
+            throw new AirfieldNotFoundException(index);
         }
     }
 
@@ -68,7 +68,7 @@ public class Airfield <T extends ITransport, S extends IRadars> {
     {
         DrawMarking(g);
 
-        int x = 30, y = 75;
+        int x = 30, y = 85;
         for(int i = 0; i < _places.size(); ++i)
         {
             if(i % (pictureWidth / _placeSizeWidth) == 0 && i != 0)
