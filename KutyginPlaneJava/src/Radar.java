@@ -2,14 +2,24 @@ import java.awt.*;
 
 public class Radar implements IRadars{
     private RadarAmount radarAmount;
+    public int amount;
 
     public Radar(int d){
         SetRadarAmount(d);
+        amount = d;
     }
 
     public void SetRadarAmount(int d)
     {
         radarAmount = RadarAmount.getRadarAmount(d);
+    }
+    public int GetRadarAmount()
+    {
+        return amount;
+    }
+    public String GetRadarFormName()
+    {
+        return "Radar";
     }
 
     public void DrawPart(Graphics g,Color color, int x, int y)
