@@ -1,6 +1,9 @@
 import java.util.*;
 import java.util.ArrayList;
 import java.io.*;
+import java.util.concurrent.Callable;
+import java.util.stream.Collectors;
+
 public class AirfieldCollection {
     final HashMap<String, Airfield<Plane, Radar>> airfieldStages = new HashMap();
     Plane plane;
@@ -45,7 +48,7 @@ public class AirfieldCollection {
         }
         return null;
     }
-    public boolean SaveData (File fileName)
+    public void SaveData (File fileName) throws Exception
     {
         if(fileName.exists())
         {
@@ -78,19 +81,14 @@ public class AirfieldCollection {
                     }
                 }
             }
-            return true;
-        }
-        catch(IOException ex)
-        {
-            return false;
         }
     }
 
-    public boolean LoadData (File fileName)
+    public void LoadData (File fileName) throws Exception
     {
         if(!fileName.exists())
         {
-            return false;
+            throw new FileNotFoundException();
         }
         try (BufferedReader br = new BufferedReader(new FileReader(fileName)))
         {
@@ -103,7 +101,7 @@ public class AirfieldCollection {
                 }
                 else
                 {
-                    return false;
+                    throw new Exception("Неверный формат файла");
                 }
                 Plane vehicle = null;
                 String key = "";
@@ -130,110 +128,78 @@ public class AirfieldCollection {
                     int res = airfieldStages.get(key).Plus(vehicle);
                     if(res == -1)
                     {
-                        return false;
+                        throw new AirfieldOverflowException();
                     }
                 }
             }
-            return true;
-        }
-        catch(IOException ex)
-        {
-            return false;
         }
     }
 
-    public boolean SaveAirfield (File fileName, String airfieldName)
+    public void SaveAirfield (File fileName, String airfieldName)throws Exception
     {
         if(!airfieldStages.containsKey(airfieldName))
         {
-            return false;
+            throw new Exception("Такой аэропорт отсутствует");
         }
         if(fileName.exists())
         {
             fileName.delete();
         }
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(fileName)))
-        {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(fileName))) {
             Airfield<Plane, Radar> airfield = airfieldStages.get(airfieldName);
             bw.write("Airfield" + separator + airfieldName + System.lineSeparator());
             ITransport vehicle = null;
-            for(int j = 0; (vehicle = airfield.getPlane(j)) != null; j++)
-            {
-                if(vehicle != null)
-                {
-                    if(vehicle.getClass().getSimpleName().equals("Plane"))
-                    {
+            for (int j = 0; (vehicle = airfield.getPlane(j)) != null; j++) {
+                if (vehicle != null) {
+                    if (vehicle.getClass().getSimpleName().equals("Plane")) {
                         Plane plane = (Plane) vehicle;
                         bw.write("Plane" + separator);
                         bw.write(plane.getPlaneConfig() + System.lineSeparator());
                     }
-                    if(vehicle.getClass().getSimpleName().equals("RadarPlane"))
-                    {
-                        RadarPlane radarPlane = (RadarPlane)vehicle;
+                    if (vehicle.getClass().getSimpleName().equals("RadarPlane")) {
+                        RadarPlane radarPlane = (RadarPlane) vehicle;
                         bw.write("RadarPlane" + separator);
                         bw.write(radarPlane.GetRadarPlaneConfig() + System.lineSeparator());
                     }
                 }
             }
-            return true;
-        }
-        catch(IOException ex)
-        {
-            return false;
         }
     }
 
-    public boolean LoadAirfield (File fileName)
+    public void LoadAirfield (File fileName) throws Exception
     {
         if(!fileName.exists())
         {
-            return false;
+            throw new FileNotFoundException();
         }
         try (BufferedReader br = new BufferedReader(new FileReader(fileName)))
         {
             String line;
-            if((line = br.readLine()) != null)
-            {
-                if(!line.contains("Airfield" + String.valueOf(separator)))
-                {
-                    return false;
-                }
-                else
-                {
+            if((line = br.readLine()) != null) {
+                if (!line.contains("Airfield" + String.valueOf(separator))) {
+                    throw new Exception("Неверный формат файла");
+                } else {
                     Plane vehicle = null;
                     String key = "";
                     key = line.split(String.valueOf(separator))[1];
-                    if(airfieldStages.containsKey(key))
-                    {
+                    if (airfieldStages.containsKey(key)) {
                         airfieldStages.get(key).clear();
+                    } else {
+                        airfieldStages.put(key, new Airfield<>(pictureWidth, pictureHeight));
                     }
-                    else
-                    {
-                        airfieldStages.put(key, new Airfield<>(pictureWidth,pictureHeight));
-                    }
-                    while((line = br.readLine()) != null)
-                    {
-                        if(Objects.equals(line.split(String.valueOf(separator))[0], "Plane"))
-                        {
+                    while ((line = br.readLine()) != null) {
+                        if (Objects.equals(line.split(String.valueOf(separator))[0], "Plane")) {
                             vehicle = new Plane(line.split(String.valueOf(separator))[1]);
-                        }
-                        else if (Objects.equals(line.split(String.valueOf(separator))[0], "RadarPlane"))
-                        {
+                        } else if (Objects.equals(line.split(String.valueOf(separator))[0], "RadarPlane")) {
                             vehicle = new RadarPlane(line.split(String.valueOf(separator))[1]);
                         }
                         int res = airfieldStages.get(key).Plus(vehicle);
-                        if(res == -1)
-                        {
-                            return false;
+                        if (res == -1) {
+                            throw new StackOverflowError("Не удалось загрузить самолет");
                         }
                     }
                 }
             }
-            return true;
-        }
-        catch(IOException ex)
-        {
-            return false;
         }
     }
 }
