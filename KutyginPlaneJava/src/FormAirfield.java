@@ -12,7 +12,7 @@ import java.util.Stack;
 public class FormAirfield extends JFrame {
 
     private final Airfield<Plane, IRadars> airfield;
-    Plane plane;
+    private Plane plane;
     private AirfieldCollection airfieldCollection;
     private JList<String> jListBoxAirfield;
     private DefaultListModel<String> defListModelAirfield;
@@ -113,6 +113,86 @@ public class FormAirfield extends JFrame {
 
         Stack<Vehicle> deletedPlanes = new Stack<>();
 
+        JMenuBar jMenuBar = new JMenuBar();
+
+        JFileChooser jFileChooser = new JFileChooser();
+
+        JMenu jMenu = new JMenu("Файл");
+        jMenuBar.add(jMenu);
+
+        JMenuItem jMenuItemSaveFile = new JMenuItem("Сохранить");
+        JMenuItem jMenuItemLoadFile = new JMenuItem("Загрузить");
+        jMenu.add(jMenuItemLoadFile);
+        jMenu.add(jMenuItemSaveFile);
+
+        JMenu jMenuBase = new JMenu("Аэродром");
+        jMenuBar.add(jMenuBase);
+
+        JMenuItem jMenuItemSaveAirfield = new JMenuItem("Сохранить");
+        JMenuItem jMenuItemLoadAirfield = new JMenuItem("Загрузить");
+        jMenuBase.add(jMenuItemSaveAirfield);
+        jMenuBase.add(jMenuItemLoadAirfield);
+
+        setJMenuBar(jMenuBar);
+
+        jMenuItemSaveFile.addActionListener(e->{
+            if(jFileChooser.showDialog(null, "Сохранить в файл") == jFileChooser.APPROVE_OPTION)
+            {
+                if(airfieldCollection.SaveData(jFileChooser.getSelectedFile()))
+                {
+                    JOptionPane.showMessageDialog(null, "Сохранение прошло успешно", "Результат", JOptionPane.WARNING_MESSAGE);
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(null, "Не сохранилось", "Результат", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+
+        jMenuItemLoadFile.addActionListener(e->{
+            if(jFileChooser.showDialog(null, "Загрузить из файла") == jFileChooser.APPROVE_OPTION)
+            {
+                if(airfieldCollection.LoadData(jFileChooser.getSelectedFile()))
+                {
+                    JOptionPane.showMessageDialog(null, "Загрузили", "Результат", JOptionPane.WARNING_MESSAGE);
+                    reloadLevel();
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(null, "Не загрузили", "Результат", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+
+        jMenuItemSaveAirfield.addActionListener(e->{
+            if(jFileChooser.showDialog(null, "Сохранить в файл") == jFileChooser.APPROVE_OPTION)
+            {
+                if(airfieldCollection.SaveAirfield(jFileChooser.getSelectedFile(), jListBoxAirfield.getSelectedValue()))
+                {
+                    JOptionPane.showMessageDialog(null, "Сохранение прошло успешно", "Результат", JOptionPane.WARNING_MESSAGE);
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(null, "Не сохранилось", "Результат", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+
+        jMenuItemLoadAirfield.addActionListener(e->{
+            if(jFileChooser.showDialog(null, "Загрузить из файла") == jFileChooser.APPROVE_OPTION)
+            {
+                if(airfieldCollection.LoadAirfield(jFileChooser.getSelectedFile()))
+                {
+                    JOptionPane.showMessageDialog(null, "Загрузили", "Результат", JOptionPane.WARNING_MESSAGE);
+                    reloadLevel();
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(null, "Не загрузили", "Результат", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+
         btnParkingForDeletedCars.addActionListener(e ->{
             if (!deletedPlanes.isEmpty())
             {
@@ -148,7 +228,7 @@ public class FormAirfield extends JFrame {
                     }
                 }
                 else
-                    {
+                {
                     JOptionPane.showMessageDialog(null, "Данного аэродрома не существует", "Ошибка", JOptionPane.ERROR_MESSAGE);
                 }
             }
@@ -175,48 +255,48 @@ public class FormAirfield extends JFrame {
         });
     }
 
-        public class jListSelectedIndexChanged implements ListSelectionListener{
-            public void valueChanged(ListSelectionEvent e){
-                repaint();
-            }
+    public class jListSelectedIndexChanged implements ListSelectionListener{
+        public void valueChanged(ListSelectionEvent e){
+            repaint();
         }
+    }
 
-        @Override
-        public void paint(Graphics g)
-        {
-            super.paint(g);
-            if(jListBoxAirfield != null){
-                if(jListBoxAirfield.getSelectedValue() != null){
-                    airfieldCollection.get(jListBoxAirfield.getSelectedValue()).Draw(g);
-                }
+    @Override
+    public void paint(Graphics g)
+    {
+        super.paint(g);
+        if(jListBoxAirfield != null){
+            if(jListBoxAirfield.getSelectedValue() != null){
+                airfieldCollection.get(jListBoxAirfield.getSelectedValue()).Draw(g);
             }
         }
-        public void addPlane(Plane plane)
+    }
+    public void addPlane(Plane plane)
+    {
+        if((airfieldCollection.get(jListBoxAirfield.getSelectedValue()).Plus(plane))!=-1)
         {
-          if((airfieldCollection.get(jListBoxAirfield.getSelectedValue()).Plus(plane))!=-1)
-             {
-                 repaint();
-             }
-          else
-            {
-                JOptionPane.showMessageDialog(null, "Аэродром переполнен");
-            }
+            repaint();
         }
+        else
+        {
+            JOptionPane.showMessageDialog(null, "Аэродром переполнен");
+        }
+    }
 
-        private void reloadLevel(){
-            int index = jListBoxAirfield.getSelectedIndex();
-            defListModelAirfield.clear();
-            for (int i = 0; i < airfieldCollection.Keys().size(); i++){
-                defListModelAirfield.addElement(airfieldCollection.Keys().get(i));
-            }
-            if(defListModelAirfield.size() > 0 && (index == -1 || index >= defListModelAirfield.size())){
-                jListBoxAirfield.setSelectedIndex(0);
-            }
-            else
-            {
-                if(defListModelAirfield.size() > 0 && index >-1 && index < defListModelAirfield.size()){
-                    jListBoxAirfield.setSelectedIndex(index);
-                }
+    private void reloadLevel(){
+        int index = jListBoxAirfield.getSelectedIndex();
+        defListModelAirfield.clear();
+        for (int i = 0; i < airfieldCollection.Keys().size(); i++){
+            defListModelAirfield.addElement(airfieldCollection.Keys().get(i));
+        }
+        if(defListModelAirfield.size() > 0 && (index == -1 || index >= defListModelAirfield.size())){
+            jListBoxAirfield.setSelectedIndex(0);
+        }
+        else
+        {
+            if(defListModelAirfield.size() > 0 && index >-1 && index < defListModelAirfield.size()){
+                jListBoxAirfield.setSelectedIndex(index);
             }
         }
+    }
 }

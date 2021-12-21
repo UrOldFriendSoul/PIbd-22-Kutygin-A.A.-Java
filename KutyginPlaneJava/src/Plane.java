@@ -1,56 +1,65 @@
 import java.awt.*;
 
 public class Plane extends Vehicle{
-private int planeWidth = 120;
-private int planeHeight = 60;
-public Plane(int maxSpeed, int weight, Color mainColor){
-setMaxSpeed(maxSpeed);
-setWeight(weight);
-setMainColor(mainColor);
-}
-
-protected Plane(int maxSpeed, int weight, Color mainColor, int planeWidth, int planeHeight){
-    setMaxSpeed(maxSpeed);
-    setWeight(weight);
-    setMainColor(mainColor);
-    this.planeWidth =  planeWidth;
-    this.planeHeight =  planeHeight;
-}
-
-@Override
-    public void MoveTransport(Directions directions){
-    int step = getMaxSpeed()*100 / getWeight();
-    switch (directions){
-        // вправо
-        case RIGHT:
-            if (_startPosX + step < _pictureWidth - 150 - planeWidth)
-            {
-                _startPosX += step;
-            }
-            break;
-        //влево
-        case LEFT:
-            if (_startPosX - step > 11)
-            {
-                _startPosX -= step;
-            }
-            break;
-        //вверх
-        case UP:
-            if (_startPosY - step > 40)
-            {
-                _startPosY -= step;
-            }
-            break;
-        //вниз
-        case DOWN:
-            if (_startPosY + step < _pictureHeight + 35 - planeHeight)
-            {
-                _startPosY += step;
-            }
-            break;
+    private int planeWidth = 120;
+    private int planeHeight = 60;
+    protected String separator = ";";
+    public Plane(int maxSpeed, int weight, Color mainColor){
+        setMaxSpeed(maxSpeed);
+        setWeight(weight);
+        setMainColor(mainColor);
     }
-}
+    protected Plane(int maxSpeed, int weight, Color mainColor, int planeWidth, int planeHeight){
+        setMaxSpeed(maxSpeed);
+        setWeight(weight);
+        setMainColor(mainColor);
+        this.planeWidth =  planeWidth;
+        this.planeHeight =  planeHeight;
+    }
+    public Plane(String info)
+    {
+        String[] strs = info.split(separator);
+        if(strs.length==3)
+        {
+            MaxSpeed = Integer.parseInt(strs[0]);
+            Weight = Integer.parseInt(strs[1]);
+            MainColor = Color.decode(strs[2]);
+        }
+    }
+    @Override
+    public void MoveTransport(Directions directions){
+        int step = getMaxSpeed()*100 / getWeight();
+        switch (directions){
+            // вправо
+            case RIGHT:
+                if (_startPosX + step < _pictureWidth - 150 - planeWidth)
+                {
+                    _startPosX += step;
+                }
+                break;
+            //влево
+            case LEFT:
+                if (_startPosX - step > 11)
+                {
+                    _startPosX -= step;
+                }
+                break;
+            //вверх
+            case UP:
+                if (_startPosY - step > 40)
+                {
+                    _startPosY -= step;
+                }
+                break;
+            //вниз
+            case DOWN:
+                if (_startPosY + step < _pictureHeight + 35 - planeHeight)
+                {
+                    _startPosY += step;
+                }
+                break;
+        }
+    }
     @Override
     public void DrawTransport(Graphics g){
         Graphics2D g2d = (Graphics2D) g;
@@ -78,5 +87,9 @@ protected Plane(int maxSpeed, int weight, Color mainColor, int planeWidth, int p
         g.fillOval( _startPosX + 20, _startPosY + 70, 7, 7);
         g.fillOval( _startPosX + 15, _startPosY + 70, 7, 7);
         g.fillOval( _startPosX + 108, _startPosY + 70, 7, 7);
+    }
+    public String getPlaneConfig()
+    {
+        return MaxSpeed + separator + Weight + separator + MainColor.hashCode();
     }
 }

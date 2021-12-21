@@ -1,14 +1,27 @@
 import java.awt.*;
+
 public class ThirdRadarForm implements IRadars {
     private RadarAmount radarAmount;
+    int amount;
 
     public ThirdRadarForm(int d){
         SetRadarAmount(d);
+        amount = d;
     }
 
     public void SetRadarAmount(int d)
     {
         radarAmount = RadarAmount.getRadarAmount(d);
+    }
+
+    public int GetRadarAmount()
+    {
+        return amount;
+    }
+
+    public String GetRadarFormName()
+    {
+        return "SecondRadarForm";
     }
 
     public void DrawPart(Graphics g,Color color, int x, int y)

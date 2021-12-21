@@ -68,7 +68,7 @@ public class Airfield <T extends ITransport, S extends IRadars> {
     {
         DrawMarking(g);
 
-        int x = 30, y = 45;
+        int x = 30, y = 75;
         for(int i = 0; i < _places.size(); ++i)
         {
             if(i % (pictureWidth / _placeSizeWidth) == 0 && i != 0)
@@ -90,10 +90,14 @@ public class Airfield <T extends ITransport, S extends IRadars> {
         {
             for (int j = 0; j < 6; j++)
             {//линия рамзетки места
-                g.drawLine( i * _placeSizeWidth+10, j * _placeSizeHeight+35, i * _placeSizeWidth + 145, j * _placeSizeHeight+35);
+                g.drawLine( i * _placeSizeWidth+10, j * _placeSizeHeight+65, i * _placeSizeWidth + 145, j * _placeSizeHeight+65);
             }
-            g.drawLine( i * _placeSizeWidth+10, 35, i * _placeSizeWidth+10, 435);
+            g.drawLine( i * _placeSizeWidth+10, 65, i * _placeSizeWidth+10, 465);
         }
+    }
+    public void clear()
+    {
+        _places.clear();
     }
 }
 
